@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">GlideMultiDiskCacheDemo</string>
+    <string name="image_in_default_cache_dir">image in default cache dir</string>
+    <string name="image_in_cache_dir_1">image in cache dir 1</string>
 </resources>

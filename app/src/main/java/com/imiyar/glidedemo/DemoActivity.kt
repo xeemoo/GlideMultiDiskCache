@@ -2,6 +2,7 @@ package com.imiyar.glidedemo
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.imiyar.glidedemo.custom.MultiDiskLruCacheWrapper.Companion.TYPE_SUB_ONE
 import com.imiyar.glidedemo.databinding.ActivityDemoBinding
 
 class DemoActivity : AppCompatActivity() {
@@ -11,7 +12,12 @@ class DemoActivity : AppCompatActivity() {
         val binding = ActivityDemoBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        GlideApp.with(this).load(url).into(binding.ivNetImageView)
+        GlideApp.with(this).load(url).into(binding.ivImageView)
+
+        GlideApp.with(this)
+            .load(url)
+            .multiCache(TYPE_SUB_ONE)
+            .into(binding.ivImageViewDir1)
     }
 
     companion object {
