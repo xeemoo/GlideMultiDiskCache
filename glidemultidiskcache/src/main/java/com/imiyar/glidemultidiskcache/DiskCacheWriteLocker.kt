@@ -1,4 +1,4 @@
-package com.imiyar.glidedemo.custom
+package com.imiyar.glidemultidiskcache
 
 import com.bumptech.glide.util.Preconditions
 import com.bumptech.glide.util.Synthetic

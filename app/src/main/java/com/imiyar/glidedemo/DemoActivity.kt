@@ -2,7 +2,6 @@ package com.imiyar.glidedemo
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import com.imiyar.glidedemo.custom.MultiDiskLruCacheWrapper.Companion.TYPE_SUB_ONE
 import com.imiyar.glidedemo.databinding.ActivityDemoBinding
 
 class DemoActivity : AppCompatActivity() {
@@ -16,7 +15,7 @@ class DemoActivity : AppCompatActivity() {
 
         GlideApp.with(this)
             .load(url)
-            .multiCache(TYPE_SUB_ONE)
+            .multiCache(TYPE_ANIM)
             .into(binding.ivImageViewDir1)
     }
 

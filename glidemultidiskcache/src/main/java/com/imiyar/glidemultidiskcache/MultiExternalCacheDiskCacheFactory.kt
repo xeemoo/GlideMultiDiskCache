@@ -1,4 +1,4 @@
-package com.imiyar.glidedemo.custom
+package com.imiyar.glidemultidiskcache
 
 import android.content.Context
 import com.bumptech.glide.load.engine.cache.DiskCache
@@ -19,21 +19,31 @@ class MultiExternalCacheDiskCacheFactory(
         diskCacheSize: Long = DiskCache.Factory.DEFAULT_DISK_CACHE_SIZE.toLong()
     ) : this(
         mapOf(
-            MultiDiskLruCacheWrapper.TYPE_DEFAULT to Pair(getCacheDirectory(context, diskCacheName), diskCacheSize)
+            TYPE_DEFAULT to Pair(getCacheDirectory(context, diskCacheName), diskCacheSize)
         )
     )
 
+    init {
+        if (cacheConfig.isEmpty()) {
+            throw Exception("Disk cache config cannot be empty.")
+        }
+    }
+
     override fun build(): DiskCache? {
-        return cacheConfig[MultiDiskLruCacheWrapper.TYPE_DEFAULT]?.run {
-            if (first.isDirectory || first.mkdir()) {
-                MultiDiskLruCacheWrapper.create(cacheConfig)
-            } else {
-                null
-            }
+        var checkDir = true
+        cacheConfig.forEach {
+            checkDir = checkDir && (it.value.first.isDirectory || it.value.first.mkdir())
+        }
+        return if (checkDir) {
+            MultiDiskLruCacheWrapper.create(cacheConfig)
+        } else {
+            null
         }
     }
 
     companion object {
+        private const val TYPE_DEFAULT = 0
+
         @JvmStatic
         fun getCacheDirectory(context: Context, diskCacheName: String?): File {
             val internalCacheDirectory = getInternalCacheDirectory(context, diskCacheName)

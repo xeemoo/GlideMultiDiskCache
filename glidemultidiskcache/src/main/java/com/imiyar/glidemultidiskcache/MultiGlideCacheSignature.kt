@@ -1,4 +1,4 @@
-package com.imiyar.glidedemo.custom
+package com.imiyar.glidemultidiskcache
 
 import com.bumptech.glide.load.Key
 import java.security.MessageDigest
@@ -17,7 +17,7 @@ class MultiGlideCacheSignature(
     }
 
     companion object {
-        private const val ID = "com.imiyar.glidedemo.custom.MultiGlideCacheSignature"
+        private const val ID = "com.imiyar.glidemultidiskcache.MultiGlideCacheSignature"
         private val ID_BYTES = ID.toByteArray(Key.CHARSET)
     }
 }

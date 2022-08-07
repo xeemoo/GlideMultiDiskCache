@@ -1,4 +1,4 @@
-package com.imiyar.glidedemo.custom
+package com.imiyar.glidemultidiskcache
 
 import android.util.Log
 import android.util.SparseArray
@@ -117,7 +117,7 @@ class MultiDiskLruCacheWrapper private constructor(
     @Synchronized
     @Throws(IOException::class)
     private fun getDiskCache(key: Key?): DiskLruCache? {
-        var type = TYPE_DEFAULT
+        var type = cacheDirConfig.entries.first().key
 
         key?.takeIf {
             key.javaClass.name.endsWith("ResourceCacheKey") || key.javaClass.name.endsWith("DataCacheKey")
@@ -128,6 +128,9 @@ class MultiDiskLruCacheWrapper private constructor(
                 field.isAccessible = true
                 val signature = field[key]
                 if (signature is MultiGlideCacheSignature) {
+                    if (!cacheDirConfig.keys.contains(signature.type)) {
+                        throw Exception("The parameter type of method multiCache() must be included in the collection passed in when creating MultiExternalCacheDiskCacheFactory.")
+                    }
                     type = signature.type
                 }
             } catch (e: NoSuchFieldException) {
@@ -159,11 +162,6 @@ class MultiDiskLruCacheWrapper private constructor(
 
         private const val APP_VERSION = 1
         private const val VALUE_COUNT = 1
-
-        const val TYPE_DEFAULT = 0
-        const val TYPE_SUB_ONE = 1
-        const val TYPE_SUB_TWO = 2
-        const val TYPE_SUB_THREE = 3
 
         /**
          * Create a new DiskCache in the given directory with a specified max size.
