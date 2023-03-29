@@ -15,6 +15,17 @@ class MultiGlideCacheSignature(
     override fun updateDiskCacheKey(messageDigest: MessageDigest) {
         messageDigest.update(ID_BYTES)
     }
+    
+    override fun equals(other: Any?): Boolean {
+        if (other is MultiGlideCacheSignature) {
+            return type == other.type
+        }
+        return false
+    }
+
+    override fun hashCode(): Int {
+        return type
+    }
 
     companion object {
         private const val ID = "com.imiyar.glidemultidiskcache.MultiGlideCacheSignature"
